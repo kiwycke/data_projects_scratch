@@ -43,3 +43,30 @@ CRMs provide data mostly through APIs or Database Connections.
 
 
 Loading the cleaned data into an OLAP.
+
+-------------------------
+
+## Setup Instructions
+
+Follow these steps to set up and run the CRM API locally on your machine.
+
+### 1. Prerequisites
+Make sure you have the following installed:
+
+- [Python 3.8+](https://www.python.org/downloads/)
+- [pip](https://pip.pypa.io/en/stable/installation/)
+- Flask
+- (Optional) [Git](https://git-scm.com/) if you want to clone the repository
+
+## Available Endpoints
+
+- `/`  
+  Returns a welcome message.
+
+- `/customers`  
+  Returns sample customer data in JSON format.
+
+## How to use:
+1. Run the app:
+   ```bash
+   python crm_api.py
