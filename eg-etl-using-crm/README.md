@@ -56,7 +56,14 @@ Make sure you have the following installed:
 - [Python 3.8+](https://www.python.org/downloads/)
 - [pip](https://pip.pypa.io/en/stable/installation/)
 - Flask
+- Pandas
+- Requests
 - (Optional) [Git](https://git-scm.com/) if you want to clone the repository
+
+### 2. Install project dependencies:
+After cloning the project, install all required Python packages with:
+
+```bash<br>pip install -r requirements.txt
 
 ## Available Endpoints
 
@@ -67,6 +74,7 @@ Make sure you have the following installed:
   Returns sample customer data in JSON format.
 
 ## How to use:
-1. Run the app:
-   ```bash
-   python crm_api.py
+
+### 1. Run the app:
+
+```bash<br>python crm_api.py
