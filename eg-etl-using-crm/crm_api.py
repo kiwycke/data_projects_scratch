@@ -1,43 +1,53 @@
 from flask import Flask, jsonify
+import psycopg2
+import psycopg2.extras
 
 class CRMAPI:
     def __init__(self):
         # Creates an instance of a Flask web application. This is the main app that will handle incoming requests.
         self.app = Flask(__name__)
-        self.customers = self.load_customers()
+
+        # Database connection configuration
+        self.db_config = {
+            'host': 'localhost',
+            'database': 'crm_db',
+            'user': 'postgres',          # Replace with your PostgreSQL username
+            'password': 'postgres',      # Replace with your PostgreSQL password
+            'port': 5432
+        }
+
+        # Set up all routes when the app starts
         self.setup_routes()
 
-    def load_customers(self):
+
+    def get_customers_from_db(self):
         """
-        Sample customer data simulating what might come from a real CRM system.
-        This data is returned by the /customers endpoint.
+        Connects to PostgreSQL and retrieves all customers from the 'customers' table.
         """
-        return [
-            {
-                "Customer_ID": 101,
-                "Name": "Alice",
-                "Country": "USA",
-                "Sales": 5000,
-                "Last_Purchase_Date": "2024-01-10",
-                "Status": "Active"
-            },
-            {
-                "Customer_ID": 102,
-                "Name": "Bob",
-                "Country": "UK",
-                "Sales": 3000,
-                "Last_Purchase_Date": "2023-12-15",
-                "Status": "Inactive"
-            },
-            {
-                "Customer_ID": 103,
-                "Name": "Charlie",
-                "Country": "USA",
-                "Sales": 7000,
-                "Last_Purchase_Date": "2024-02-01",
-                "Status": "Active"
-            }
-        ]
+        try:
+            # Establish the database connection
+            connection = psycopg2.connect(**self.db_config)
+            
+            # Use DictCursor to get results as dictionaries (for easy JSON conversion)
+            cursor = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
+            
+            # Execute SQL query to get all customer records
+            cursor.execute("SELECT * FROM customers;")
+            
+            # Fetch all rows from the result
+            customers = cursor.fetchall()
+            
+            # Close cursor and connection to avoid leaks
+            cursor.close()
+            connection.close()
+            
+            # Convert rows from psycopg2 objects to Python dictionaries
+            return [dict(customer) for customer in customers]
+
+        except Exception as e:
+            # Log any database connection or query errors
+            print(f"Database error: {e}")
+            return []
 
     def setup_routes(self):
         """
@@ -49,10 +59,17 @@ class CRMAPI:
         def home():
             return jsonify({"message": "Welcome to the CRM API!"})
 
-        # /customers route that returns the sample customer data as JSON
+        # /customers route that fetches data from the PostgreSQL database
         @self.app.route('/customers', methods=['GET'])
         def get_customers():
-            return jsonify(self.customers)
+            customers = self.get_customers_from_db()
+            
+            if customers:
+                # Return the customer list as JSON if data exists
+                return jsonify(customers)
+            else:
+                # Return an error if no data is found or an error occurred
+                return jsonify({"error": "No customer data found or database error occurred."}), 500
 
     def run(self):
         # Runs the app (in debug mode) to start the Flask web server on your local machine (usually at http://127.0.0.1:5000)

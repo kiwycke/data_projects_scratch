@@ -59,6 +59,10 @@ Make sure you have the following installed:
 - Pandas
 - Requests
 - (Optional) [Git](https://git-scm.com/) if you want to clone the repository
+- **PostgreSQL** (version 13 or higher recommended
+    - You must have a running PostgreSQL database.
+    - Create a database called `crm_db` with a table `customers`.
+    - Insert sample customer data (see example SQL in the documentation below).
 
 ### 2. Install project dependencies:
 After cloning the project, install all required Python packages with:
