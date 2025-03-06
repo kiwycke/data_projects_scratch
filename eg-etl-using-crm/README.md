@@ -15,11 +15,15 @@ A company uses HubSpot CRM to manage customer interactions. They want to analyze
 - Geographical distribution of customers
 -------------------------
 ### 0. Create a basic CRM System - Using FLask and PostgreSQL
-(CRM - Customer Relationship Management)
+(**CRM** - Customer Relationship Management)
 
-1. Design the Database Schema for storing customers' data
-2. Build the backend API to add, update and retrieve data
-3. Enable Data Extraction vie API or csv export
+1. **Design the Database Schema** for storing customers' data<br> Options to store and manage data:
+    - **Temporary** in-memory storage (python list/dictionary)<br>
+      --> if you just want to test the API without storing data
+    - **Permanently** storing customer data in a database<br>
+      (PostgreSQL, SQLite, MySQL)
+2. **Build the backend API** to add, update and retrieve data<br> - **Flask**
+3. **Enable Data Extraction** via API or csv export
 
 (Possible future improvement: Creating a Web UI to interact with the CRM)
 

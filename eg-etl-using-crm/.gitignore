@@ -1,0 +1,6 @@
+*.csv
+*.zip
+*.tar
+*.pdf
+__pycache__/
+.idea/
